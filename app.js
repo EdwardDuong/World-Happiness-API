@@ -8,12 +8,13 @@ const cors = require("cors");
 const options = require("./knexfile.js");
 const { request } = require("http");
 const knex = require("knex")(options);
-
+const serverless = require("serverless-http");
 const swaggerUI = require("swagger-ui-express");
 const swaggerDocument = require("./docs/swagger.json");
-
+const Rounter = express.Router;
 //Rounter
 const app = express();
+app.use("/.netlify/functions/", Rounter);
 var userRouter = require("./routes/user");
 const factorsRouter = require("./routes/factors");
 const rankingsRouter = require("./routes/rankings");
@@ -43,7 +44,6 @@ app.use((req, res, next) => {
 app.use("/rankings", rankingsRouter);
 app.use("/countries", countriesRouter);
 app.use("/factors", factorsRouter);
-//app.use("/", indexRouter);
 app.use("/user", userRouter);
 app.use("/", swaggerUI.serve);
 app.get("/", swaggerUI.setup(swaggerDocument));
@@ -71,3 +71,4 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
+module.exports.handler = serverless(app);
