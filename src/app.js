@@ -5,20 +5,21 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const helmet = require("helmet");
 const cors = require("cors");
-const options = require("./knexfile.js");
+const options = require("../knexfile.js");
 const { request } = require("http");
 const knex = require("knex")(options);
 const serverless = require("serverless-http");
 const swaggerUI = require("swagger-ui-express");
-const swaggerDocument = require("./docs/swagger.json");
+const swaggerDocument = require("../docs/swagger.json");
 const Rounter = express.Router;
+
 //Rounter
 const app = express();
 app.use("/.netlify/functions/", Rounter);
-var userRouter = require("./routes/user");
-const factorsRouter = require("./routes/factors");
-const rankingsRouter = require("./routes/rankings");
-const countriesRouter = require("./routes/countries");
+var userRouter = require("../routes/user");
+const factorsRouter = require("../routes/factors");
+const rankingsRouter = require("../routes/rankings");
+const countriesRouter = require("../routes/countries");
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
